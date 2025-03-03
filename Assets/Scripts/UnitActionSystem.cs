@@ -9,7 +9,7 @@ public class UnitActionSystem : MonoBehaviour
 
     public event EventHandler OnSelectedUnitChanged;
 
-    [SerializeField] private Unit seleectedUnit;
+    [SerializeField] private Unit selectedUnit;
     [SerializeField] private LayerMask unitLayerMask;
 
     private void Awake()
@@ -33,7 +33,13 @@ public class UnitActionSystem : MonoBehaviour
                 return;
             }
 
-            seleectedUnit.Move(MouseWorld.GetPosition());
+            GridPosition mouseGridPosition =
+                LevelGrid.Instance.GetGridPosition(MouseWorld.GetPosition());
+
+            if(selectedUnit.GetMoveAction().IsValidActionGridPosition(mouseGridPosition))
+            {
+                selectedUnit.GetMoveAction().Move(mouseGridPosition);
+            }
         }
     }
 
@@ -59,12 +65,12 @@ public class UnitActionSystem : MonoBehaviour
 
     private void SetSelectedUnit(Unit unit)
     {
-        seleectedUnit = unit;
+        selectedUnit = unit;
         OnSelectedUnitChanged?.Invoke(this, EventArgs.Empty);
     }
 
     public Unit GetSelectedUnit()
     {
-        return seleectedUnit;
+        return selectedUnit;
     }
 }
