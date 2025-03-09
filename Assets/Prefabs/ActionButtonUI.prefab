@@ -168,7 +168,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b7835aaa5d64417ca3c0ee715ba51bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TextMeshPro: {fileID: 4566596802073552556}
+  textMesh: {fileID: 4566596802073552556}
   button: {fileID: 1611413287468822759}
   selectedGameObject: {fileID: 7914776364197589308}
 --- !u!1 &7914776364197589308
