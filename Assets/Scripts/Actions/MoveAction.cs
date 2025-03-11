@@ -23,31 +23,34 @@ public class MoveAction : BaseAction
             return;
         }
 
+        Vector3 moveDirection = (targetPosition - transform.position).normalized;
+
         float stoppingDistance = 0.1f;
         if (Vector3.Distance(transform.position, targetPosition) > stoppingDistance)
         {
-            Vector3 moveDirection = (targetPosition - transform.position).normalized;
             float moveSpeed = 4f;
             transform.position += moveDirection * (moveSpeed * Time.deltaTime);
-
-            float rotateSpeed = 10f;
-            transform.forward = Vector3.Lerp(transform.forward, moveDirection, Time.deltaTime * rotateSpeed);
 
             unitAnimator.SetBool("IsWalking", true);
 
         } else
         {
             unitAnimator.SetBool("IsWalking", false);
-            isActive = false;
-            onActionComplete();
+            ActionComplete();
         }
+
+        float rotateSpeed = 10f;
+        transform.forward = Vector3.Lerp(
+            transform.forward,
+            moveDirection,
+            Time.deltaTime * rotateSpeed
+        );
     }
 
     public override void TakeAction(GridPosition targetPosition, Action onActionComplete)
     {
-        this.onActionComplete = onActionComplete;
+        ActionStart(onActionComplete);
         this.targetPosition = LevelGrid.Instance.GetWorldPosition(targetPosition);
-        isActive = true;
     }
 
     public override List<GridPosition> GetValidActionGridPositionList()
